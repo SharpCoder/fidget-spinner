@@ -1,5 +1,7 @@
 # fidget-spinner
 
+## THIS IS A WORK IN PROGRESS!
+
 Qa'pla! thlIngon MaH! This is a Klingon fidget spinner written in OpenSCAD!
 
 ![Fidget Spinner](https://joshcole.dev/fidget-spinner.png)

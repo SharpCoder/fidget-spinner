@@ -1,7 +1,7 @@
 M_PI = 3.1415926;
 $fn=300;
 SPINNER_ARM = 38.6875 + 2;
-BEARING_BORE = 6;
+BEARING_BORE = 6-.2;
 BEARING_HEIGHT = 6;
 BEARING_DIAMETER = 17.2;
 
@@ -15,40 +15,25 @@ fy = function(x) M_PI * x/2;
 
 module blade(length) {
     difference() {
-        union() {
-            polygon([
-                [fx(degs(0)),fy(0)],
-                [length/4, -10],
-                [length/3, -5],
-                [length, fy(M_PI/2)],
-            ]);
-            
-            polygon([
-                [fx(degs(0)),fy(0)],
-                [length/4, 10],
-                [length/3, 5],
-                [length, fy(M_PI/2)],
-            ]);
-        }
-        
-        
-        union() {
-            polygon([
-                [fx(degs(0)),fy(0)],
-                [length/4, -3],
-                [length/3, -1],
-                [length, fy(M_PI/2)],
-            ]);
-            
-            polygon([
-                [fx(degs(0)),fy(0)],
-                [length/4, 3],
-                [length/3, 1],
-                [length, fy(M_PI/2)],
-            ]);
-            
-        }
-        
+        polygon([
+            [0,0],
+            [length/4, -10],
+            [length/3, -5],
+            [length, fy(M_PI/2)],
+            [length/3, 5],
+            [length/4, 10],
+            [0,0],
+        ]);
+    
+        polygon([
+            [0,0],
+            [length/4 - 1, -3],
+            [length/3 - 1, -1],
+            [length - 1, fy(M_PI/2)],
+            [length/3 - 1, 1],
+            [length/4 - 1, 3],
+            [0,0],
+        ]);
     }
 }
 

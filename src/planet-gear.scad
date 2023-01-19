@@ -1,3 +1,4 @@
+include <parameters.scad>
 
 /**
 Constants
@@ -98,17 +99,17 @@ module circular_mirror(x=0, y=0, d, steps) {
     }
 }
 
-linear_extrude(6)
+linear_extrude(ARM_BEARING_HEIGHT)
 difference() {
-    spur_gear(N=30, P=24.0, pa=14.5);
-    circle(d=17.2, $fn=300);    
+    spur_gear(N=24, P=22.0, pa=14.5);
+    circle(d=ARM_BEARING_DIA + .15);    
     
 }
 
 echo(
     calc_center_distance(
-        30,
-        45,
-        24
+        24,
+        40,
+        22
     )
 );

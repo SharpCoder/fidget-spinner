@@ -1,34 +1,41 @@
-M_PI = 3.1415926;
-$fn=300;
-SPINNER_ARM = 38.6875 + 2;
-BEARING_BORE = 6-.2;
-BEARING_HEIGHT = 6;
-BEARING_DIAMETER = 17.2;
+include <parameters.scad>
+
+SPINNER_ARM = 36.9455 + .2;
 
 fy = function(x) M_PI * x/2;
 
-module blade(length) {
-    difference() {
-        polygon([
-            [0,0],
-            [length/4, -10],
-            [length/3, -5],
-            [length, fy(M_PI/2)],
-            [length/3, 5],
-            [length/4, 10],
-            [0,0],
-        ]);
+module blade_shape(width, height, length) {
+    threshold = 8;
     
-        polygon([
-            [0,0],
-            [length/4 - 1, -4],
-            [length/3 - 1, -2],
-            [length - 1, fy(M_PI/2)],
-            [length/3 - 1, 2],
-            [length/4 - 1, 4],
-            [0,0],
-        ]);
+    difference() {
+        polygon(
+            concat(
+                [[0, 0]],
+                [[-width/2, height]],
+                [[-.25, length]],
+                [[0, length]],
+                [[.25, length]],
+                [[width/2, height]],
+                [[0, 0]]
+            )
+        );            
+        polygon(
+            concat(
+                [[0, 0]],
+                [[-(width-threshold)/2, height]],
+                [[-.25, length - 3]],
+                [[0, length - 3]],
+                [[.25, length - 3]],
+                [[(width-threshold)/2, height]],
+                [[0, 0]]
+            )
+        );  
     }
+}
+
+module blade(length) {
+    rotate(34)
+    blade_shape(width=10, height=20, length=length);
 }
 
 module arm() {
@@ -48,6 +55,14 @@ module debug() {
     arm();   
 }
 
+module arm_bearing() {
+    linear_extrude(BEARING_HEIGHT*1.5+1)
+    circle(d=ARM_BEARING_BORE);
+    
+    linear_extrude(BEARING_HEIGHT+1)
+    circle(d=ARM_BEARING_BORE+1);
+}
+
 module base_assembly(ASSMEBLY_THICKNESS) {
   linear_extrude(ASSMEBLY_THICKNESS + 1)
     difference() {
@@ -63,19 +78,19 @@ module base_assembly(ASSMEBLY_THICKNESS) {
         
         center();
     }
-
-    linear_extrude(BEARING_HEIGHT*1.5)
+    
+    color("yellow")
     union() {
         translate([SPINNER_ARM, 0, 0])
-        circle(d=BEARING_BORE);
+        arm_bearing();
 
         rotate(240)
         translate([SPINNER_ARM, 0, 0])
-        circle(d=BEARING_BORE);
+        arm_bearing();
 
         rotate(120)
         translate([SPINNER_ARM, 0, 0])
-        circle(d=BEARING_BORE);
+        arm_bearing();
     }
     
     
